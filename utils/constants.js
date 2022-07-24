@@ -12,3 +12,9 @@ module.exports.STATUS_CODE = {
     serverError: 500,
   },
 };
+
+module.exports.ERROR_CODE = {
+  mongo: {
+    duplicateKey: 11000,
+  },
+};

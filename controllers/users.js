@@ -1,5 +1,31 @@
+const bcrypt = require('bcrypt');
+
 const User = require('../models/user');
-const { BadRequestError, NotFoundError } = require('../classes/Error');
+const { BadRequestError, NotFoundError, ConflictError } = require('../classes/Error');
+const { STATUS_CODE, ERROR_CODE } = require('../utils/constants');
+
+const createUser = (req, res, next) => {
+  const { name, email, password } = req.body;
+  bcrypt.hash(password, 10)
+    .then((hash) => {
+      User.create({
+        name, email, password: hash,
+      });
+    })
+    .then((user) => {
+      res.status(STATUS_CODE.success.created).send(
+        { name: user.name, email: user.email },
+      );
+    })
+    .catch((err) => {
+      if (err.code === ERROR_CODE.mongo.duplicateKey) {
+        const msg = 'Пользователь с таким E-mail уже существует';
+        next(new ConflictError(msg));
+      } else {
+        next(err);
+      }
+    });
+};
 
 const getUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -37,6 +63,7 @@ const updateUser = (req, res, next) => {
 };
 
 module.exports = {
+  createUser,
   getUser,
   updateUser,
 };
