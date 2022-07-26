@@ -7,11 +7,9 @@ const { STATUS_CODE, ERROR_CODE } = require('../utils/constants');
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
   bcrypt.hash(password, 10)
-    .then((hash) => {
-      return User.create({
-        name, email, password: hash,
-      });
-    })
+    .then((hash) => User.create({
+      name, email, password: hash,
+    }))
     .then((user) => {
       res.status(STATUS_CODE.success.created).send(
         { name: user.name, email: user.email },

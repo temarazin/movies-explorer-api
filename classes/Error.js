@@ -36,3 +36,10 @@ module.exports.ConflictError = class ConflictError extends Error {
     this.statusCode = STATUS_CODE.error.conflict;
   }
 };
+
+module.exports.ServerError = class ServerError extends Error {
+  constructor(msg = 'Что-то пошло не так') {
+    super(msg);
+    this.statusCode = STATUS_CODE.error.serverError;
+  }
+};
