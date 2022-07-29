@@ -1,10 +1,11 @@
 const Movie = require('../models/movie');
 
 const { ForbiddenError, NotFoundError, ServerError } = require('../classes/Error');
+const { MSG, STATUS_CODE } = require('../utils/constants');
 
 const addMovie = (req, res, next) => {
   Movie.create({ ...req.body, owner: req.user._id })
-    .then((card) => res.status(201).send(card))
+    .then((movie) => res.status(STATUS_CODE.success.created).send(movie))
     .catch(next);
 };
 
@@ -25,15 +26,15 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм не найден');
+        throw new NotFoundError(MSG.error.notFound.movie);
       }
       if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Недостаточно прав');
+        throw new ForbiddenError();
       }
       return Movie.findByIdAndRemove(movieId);
     })
     .then(() => {
-      res.send({ message: 'фильм удален' });
+      res.send({ message: MSG.success.movieWasRemoved });
     })
     .catch((err) => {
       next(err);

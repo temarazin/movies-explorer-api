@@ -6,6 +6,6 @@ module.exports = (app) => {
   app.use('/users/', usersRouter);
   app.use('/movies/', moviesRouter);
   app.use(() => {
-    throw new NotFoundError('Неверный путь');
+    throw new NotFoundError();
   });
 };

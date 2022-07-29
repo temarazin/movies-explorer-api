@@ -1,12 +1,17 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const { getUser, updateUser, createUser } = require('../controllers/users');
+const { SETTINGS, MSG } = require('../utils/constants');
+
+const { validation } = SETTINGS;
 
 // temp route
 router.post('/', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().$.min(2).max(30).rule({ message: 'Имя должно содержать от 2 до 30 символов' }),
-    email: Joi.string().email().message('Некорректный E-mail'),
+    name: Joi.string()
+      .$.min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
+      .rule({ message: MSG.validation.user.invalidNameLength }),
+    email: Joi.string().email().message(MSG.validation.user.invalidEmail),
     password: Joi.string(),
   }),
 }), createUser);

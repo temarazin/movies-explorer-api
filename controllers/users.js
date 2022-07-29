@@ -2,11 +2,12 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 const { BadRequestError, NotFoundError, ConflictError } = require('../classes/Error');
-const { STATUS_CODE, ERROR_CODE } = require('../utils/constants');
+const { STATUS_CODE, ERROR_CODE, MSG } = require('../utils/constants');
 
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
-  bcrypt.hash(password, 10)
+  const saltRounds = 10;
+  bcrypt.hash(password, saltRounds)
     .then((hash) => User.create({
       name, email, password: hash,
     }))
@@ -17,8 +18,7 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === ERROR_CODE.mongo.duplicateKey) {
-        const msg = 'Пользователь с таким E-mail уже существует';
-        next(new ConflictError(msg));
+        next(new ConflictError(MSG.error.conflict.emailAlreadyExist));
       } else {
         next(err);
       }
@@ -31,7 +31,7 @@ const getUser = (req, res, next) => {
       if (user) {
         res.send(user);
       } else {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError(MSG.error.notFound.user);
       }
     })
     .catch(next);
@@ -48,8 +48,7 @@ const updateUser = (req, res, next) => {
         if (err) {
           next(err);
         } else if (!docs) {
-          const msg = 'Пользователь не найден';
-          next(new NotFoundError(msg));
+          next(new NotFoundError(MSG.error.notFound.user));
         } else {
           res.send(docs);
         }

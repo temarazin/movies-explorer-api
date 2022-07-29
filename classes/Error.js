@@ -1,44 +1,46 @@
 /* eslint-disable max-classes-per-file */
 
-const { STATUS_CODE } = require('../utils/constants');
+const { STATUS_CODE, MSG } = require('../utils/constants');
+
+const messages = MSG.error;
 
 module.exports.BadRequestError = class BadRequestError extends Error {
-  constructor(msg = 'Некорректные данные в запросе') {
+  constructor(msg = messages.badRequest.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.badRequest;
   }
 };
 
 module.exports.UnauthorizedError = class UnauthorizedError extends Error {
-  constructor(msg = 'Необходима авторизация') {
+  constructor(msg = messages.unauthorized.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.unauthorized;
   }
 };
 
 module.exports.ForbiddenError = class ForbiddenError extends Error {
-  constructor(msg = 'Доступ запрещен') {
+  constructor(msg = messages.forbidden.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.forbidden;
   }
 };
 
 module.exports.NotFoundError = class NotFoundError extends Error {
-  constructor(msg = 'Ничего не найдено') {
+  constructor(msg = messages.notFound.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.notFound;
   }
 };
 
 module.exports.ConflictError = class ConflictError extends Error {
-  constructor(msg = 'Запрос не может быть исполнен') {
+  constructor(msg = messages.conflict.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.conflict;
   }
 };
 
 module.exports.ServerError = class ServerError extends Error {
-  constructor(msg = 'Что-то пошло не так') {
+  constructor(msg = messages.serverError.default) {
     super(msg);
     this.statusCode = STATUS_CODE.error.serverError;
   }
