@@ -1,7 +1,13 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const { BadRequestError, NotFoundError, ConflictError } = require('../classes/Error');
+const {
+  UnauthorizedError,
+  BadRequestError,
+  NotFoundError,
+  ConflictError,
+} = require('../classes/Error');
 const { STATUS_CODE, ERROR_CODE, MSG } = require('../utils/constants');
 
 const createUser = (req, res, next) => {
@@ -59,8 +65,40 @@ const updateUser = (req, res, next) => {
   }
 };
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  let dbUser;
+
+  User.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        throw new UnauthorizedError(MSG.error.unauthorized.cantAuth);
+      }
+      dbUser = user;
+      return bcrypt.compare(password, user.password);
+    })
+    .then((matched) => {
+      if (!matched) {
+        throw new UnauthorizedError(MSG.error.unauthorized.cantAuth);
+      }
+      const token = jwt.sign(
+        { _id: dbUser._id },
+        process.env.NODE_END === 'production' ? process.env.JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000,
+          httpOnly: true,
+        })
+        .end();
+    })
+    .catch(next);
+};
+
 module.exports = {
   createUser,
   getUser,
   updateUser,
+  login,
 };
