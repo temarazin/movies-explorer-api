@@ -23,4 +23,4 @@ router(app);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3000);
+module.exports = app;
