@@ -1,7 +1,8 @@
 const Movie = require('../models/movie');
 
 const { ForbiddenError, NotFoundError, ServerError } = require('../classes/Error');
-const { MSG, STATUS_CODE } = require('../utils/constants');
+const { STATUS_CODE } = require('../utils/constants');
+const MSG = require('../utils/messages');
 
 const addMovie = (req, res, next) => {
   Movie.create({ ...req.body, owner: req.user._id })

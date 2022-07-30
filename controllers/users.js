@@ -8,7 +8,8 @@ const {
   NotFoundError,
   ConflictError,
 } = require('../classes/Error');
-const { STATUS_CODE, ERROR_CODE, MSG } = require('../utils/constants');
+const { STATUS_CODE, ERROR_CODE } = require('../utils/constants');
+const MSG = require('../utils/messages');
 
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;

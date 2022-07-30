@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const { getUser, updateUser, createUser } = require('../controllers/users');
-const { SETTINGS, MSG } = require('../utils/constants');
-
-const { validation } = SETTINGS;
+const MSG = require('../utils/messages');
+const { validation } = require('../utils/settings');
 
 // temp route
 router.post('/', celebrate({
