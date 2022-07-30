@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 
 const router = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { dbConnect } = require('./utils/settings');
 
 const app = express();
@@ -22,9 +23,11 @@ mongoose.connect(dbConnect.dbHost + dbConnect.dbName);
 // });
 
 app.use(cookieParser());
+app.use(requestLogger);
 
 router(app);
 
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
