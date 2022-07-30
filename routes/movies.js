@@ -6,7 +6,7 @@ router.get('/', getMovies);
 router.post('/', addMovie);
 router.delete('/:movieId', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string(),
+    movieId: Joi.string().hex(),
   }),
 }), deleteMovie);
 
