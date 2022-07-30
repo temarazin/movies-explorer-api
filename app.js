@@ -14,12 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/moviesdb');
 
-app.use((req, res, next) => {
-  req.user = { _id: '62dd1d0bcd9d20ccdac599ee' };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = { _id: '62dd1d0bcd9d20ccdac599ee' };
+//   next();
+// });
 
-app.use(cookieParser);
+app.use(cookieParser());
 
 router(app);
 

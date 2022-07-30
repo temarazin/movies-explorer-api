@@ -4,12 +4,11 @@ const { UnauthorizedError } = require('../classes/Error');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
-  let { jwt: token } = req.cookies;
-  if (!token || !token.startWith('Bearer ')) {
-    return next(new UnauthorizedError());
+  const { jwt: token } = req.cookies;
+  if (!token) {
+    return next(new UnauthorizedError(token));
   }
 
-  token = token.replace('Bearer ', '');
   let payload;
 
   try {
