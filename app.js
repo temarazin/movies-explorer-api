@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 
 const router = require('./routes');
@@ -17,6 +18,8 @@ app.use((req, res, next) => {
   req.user = { _id: '62dd1d0bcd9d20ccdac599ee' };
   next();
 });
+
+app.use(cookieParser);
 
 router(app);
 
