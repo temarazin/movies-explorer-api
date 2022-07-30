@@ -1,3 +1,4 @@
 const app = require('./app');
+const { commonSettings } = require('./utils/settings');
 
-app.listen(3000);
+app.listen(process.env.PORT || commonSettings.defaultPort);

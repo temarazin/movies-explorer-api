@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -6,13 +7,14 @@ const { errors } = require('celebrate');
 
 const router = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
+const { dbConnect } = require('./utils/settings');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/moviesdb');
+mongoose.connect(dbConnect.dbHost + dbConnect.dbName);
 
 // app.use((req, res, next) => {
 //   req.user = { _id: '62dd1d0bcd9d20ccdac599ee' };

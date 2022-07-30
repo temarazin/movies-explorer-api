@@ -8,8 +8,11 @@ const {
   NotFoundError,
   ConflictError,
 } = require('../classes/Error');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const { STATUS_CODE, ERROR_CODE } = require('../utils/constants');
 const MSG = require('../utils/messages');
+const SETTINGS = require('../utils/settings');
 
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
@@ -84,7 +87,7 @@ const login = (req, res, next) => {
       }
       const token = jwt.sign(
         { _id: dbUser._id },
-        process.env.NODE_END === 'production' ? process.env.JWT_SECRET : 'dev-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : SETTINGS.commonSettings.developSecretKey,
         { expiresIn: '7d' },
       );
       res
