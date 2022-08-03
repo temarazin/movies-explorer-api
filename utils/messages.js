@@ -32,7 +32,10 @@ module.exports = {
   validation: {
     user: {
       invalidNameLength: `Имя должно содержать от ${validation.user.nameMinLength} до ${validation.user.nameMaxLength} символов`,
+      requireName: 'Необходимо указать имя',
       invalidEmail: 'Некорректный E-mail',
+      requireEmail: 'Необходимо указать E-mail',
+      requirePassword: 'Необходимо указать пароль',
     },
   },
 };
