@@ -23,7 +23,7 @@ const createUser = (req, res, next) => {
     }))
     .then((user) => {
       res.status(STATUS_CODE.success.created).send(
-        { name: user.name, email: user.email },
+        { _id: user._id, name: user.name, email: user.email },
       );
     })
     .catch((err) => {

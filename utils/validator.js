@@ -3,37 +3,76 @@ const { Joi } = require('celebrate');
 const { validation } = require('./settings');
 const { validation: messages } = require('./messages');
 
+const { makeErrorMsg } = messages.common;
+
 module.exports = {
   movie: {
     add: {
       body: Joi.object().keys({
-        country: Joi.string().required().message(messages.movie.requireCountry),
-        director: Joi.string().required().message(messages.movie.requireDirector),
-        duration: Joi.string().required().message(messages.movie.requireDuration),
-        year: Joi.string().required().message(messages.movie.requireYear),
-        description: Joi.string().required().message(messages.movie.requireDescription),
-        image: Joi.string()
-          .required()
-          .message(messages.movie.requireDescription)
-          .url()
-          .message(messages.movie.invalidImageUrl),
-        trailerLink: Joi.string()
-          .required()
-          .message(messages.movie.requireTrailerLink)
-          .url()
-          .message(messages.movie.invalidTrailerLinkUrl),
-        thumbnail: Joi.string()
-          .required()
-          .message(messages.movie.requireThumbnail)
-          .url()
-          .message(messages.movie.invalidThumbnail),
-        owner: Joi.string()
-          .required()
-          .message(messages.movie.requireOwner)
-          .hex()
-          .message(messages.movie.invalidOwner),
-        nameRU: Joi.string().required().message(messages.movie.requireNameRU),
-        nameEN: Joi.string().required().message(messages.movie.requireNameEN),
+        country: Joi.string().required().messages({
+          'string.base': makeErrorMsg('country', messages.common.isNotString),
+          'string.empty': makeErrorMsg('country', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('country', messages.common.require),
+        }),
+        director: Joi.string().required().messages({
+          'string.base': makeErrorMsg('director', messages.common.isNotString),
+          'string.empty': makeErrorMsg('director', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('director', messages.common.require),
+        }),
+        duration: Joi.string().required().messages({
+          'string.base': makeErrorMsg('duration', messages.common.isNotString),
+          'string.empty': makeErrorMsg('duration', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('duration', messages.common.require),
+        }),
+        year: Joi.string().required().messages({
+          'string.base': makeErrorMsg('year', messages.common.isNotString),
+          'string.empty': makeErrorMsg('year', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('year', messages.common.require),
+        }),
+        description: Joi.string().required().messages({
+          'string.base': makeErrorMsg('description', messages.common.isNotString),
+          'string.empty': makeErrorMsg('description', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('description', messages.common.require),
+        }),
+        image: Joi.string().required().uri().messages({
+          'string.base': makeErrorMsg('image', messages.common.isNotString),
+          'string.empty': makeErrorMsg('image', messages.common.isNotEmpty),
+          'string.uri': makeErrorMsg('image', messages.common.isNotUrl),
+          'any.required': makeErrorMsg('image', messages.common.require),
+        }),
+        trailerLink: Joi.string().required().uri().messages({
+          'string.base': makeErrorMsg('trailerLink', messages.common.isNotString),
+          'string.empty': makeErrorMsg('trailerLink', messages.common.isNotEmpty),
+          'string.uri': makeErrorMsg('trailerLink', messages.common.isNotUrl),
+          'any.required': makeErrorMsg('trailerLink', messages.common.require),
+        }),
+        thumbnail: Joi.string().required().uri().messages({
+          'string.base': makeErrorMsg('thumbnail', messages.common.isNotString),
+          'string.empty': makeErrorMsg('thumbnail', messages.common.isNotEmpty),
+          'string.uri': makeErrorMsg('thumbnail', messages.common.isNotUrl),
+          'any.required': makeErrorMsg('thumbnail', messages.common.require),
+        }),
+        owner: Joi.string().required().hex().messages({
+          'string.base': makeErrorMsg('owner', messages.common.isNotString),
+          'string.empty': makeErrorMsg('owner', messages.common.isNotEmpty),
+          'string.hex': makeErrorMsg('owner', messages.common.isNotHex),
+          'any.required': makeErrorMsg('owner', messages.common.require),
+        }),
+        movieId: Joi.number().required().integer().messages({
+          'number.base': makeErrorMsg('movieId', messages.common.isNotNumber),
+          'number.integer': makeErrorMsg('movieId', messages.common.isNotInteger),
+          'any.required': makeErrorMsg('movieId', messages.common.require),
+        }),
+        nameRU: Joi.string().required().messages({
+          'string.base': makeErrorMsg('nameRU', messages.common.isNotString),
+          'string.empty': makeErrorMsg('nameRU', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('nameRU', messages.common.require),
+        }),
+        nameEN: Joi.string().required().messages({
+          'string.base': makeErrorMsg('nameEN', messages.common.isNotString),
+          'string.empty': makeErrorMsg('nameEN', messages.common.isNotEmpty),
+          'any.required': makeErrorMsg('nameEN', messages.common.require),
+        }),
       }),
     },
     delete: {
@@ -50,22 +89,24 @@ module.exports = {
         name: Joi.string()
           .$.min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
           .rule({ message: messages.user.invalidNameLength }),
-        email: Joi.string()
-          .email()
-          .message(messages.user.invalidEmail)
-          .required()
-          .message(messages.user.requireEmail),
-        password: Joi.string(),
+        email: Joi.string().email().required().messages({
+          'string.email': messages.user.invalidEmail,
+          'any.required': messages.user.requireEmail,
+        }),
+        password: Joi.string().required().messages({
+          'any.required': messages.user.requirePassword,
+        }),
       }),
     },
     signIn: {
       body: Joi.object().keys({
-        email: Joi.string()
-          .email()
-          .message(messages.user.invalidEmail)
-          .required()
-          .message(messages.user.requireEmail),
-        password: Joi.string().required().message(messages.user.requirePassword),
+        email: Joi.string().email().required().messages({
+          'string.email': messages.user.invalidEmail,
+          'any.required': messages.user.requireEmail,
+        }),
+        password: Joi.string().required().messages({
+          'any.required': messages.user.requirePassword,
+        }),
       }),
     },
   },
