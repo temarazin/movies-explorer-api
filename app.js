@@ -12,6 +12,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { dbConnect } = require('./utils/settings');
 const rateLimiter = require('./utils/rateLimitConfig');
 
+const { DBHOST, DBNAME } = process.env;
+
 const app = express();
 
 app.use(helmet());
@@ -20,7 +22,7 @@ app.use(rateLimiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(dbConnect.dbHost + dbConnect.dbName);
+mongoose.connect((DBHOST || dbConnect.dbHost) + (DBNAME || dbConnect.dbName));
 
 app.use(cookieParser());
 app.use(requestLogger);
