@@ -31,6 +31,7 @@ module.exports = {
   },
   validation: {
     common: {
+      // TODO: перенести makeErrorMsg в хелпер
       makeErrorMsg: (field, err) => `Поле [${field}] ${err}`,
       require: 'является обязательным',
       invalidFormat: 'не соотвествует формату',

@@ -82,6 +82,17 @@ module.exports = {
     },
   },
   user: {
+    update: {
+      body: Joi.object().keys({
+        name: Joi.string()
+          .$.min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
+          .rule({ message: messages.user.invalidNameLength }),
+        email: Joi.string().email().required().messages({
+          'string.email': messages.user.invalidEmail,
+          'any.required': messages.user.requireEmail,
+        }),
+      }),
+    },
   },
   auth: {
     signUp: {

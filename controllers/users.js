@@ -100,9 +100,19 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const logout = (req, res, next) => {
+  res
+    .clearCookie('jwt', {
+      httpOnly: true,
+    })
+    .end();
+  next();
+};
+
 module.exports = {
   createUser,
   getUser,
   updateUser,
   login,
+  logout,
 };
