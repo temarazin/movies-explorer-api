@@ -52,12 +52,6 @@ module.exports = {
           'string.uri': makeErrorMsg('thumbnail', messages.common.isNotUrl),
           'any.required': makeErrorMsg('thumbnail', messages.common.require),
         }),
-        owner: Joi.string().required().hex().messages({
-          'string.base': makeErrorMsg('owner', messages.common.isNotString),
-          'string.empty': makeErrorMsg('owner', messages.common.isNotEmpty),
-          'string.hex': makeErrorMsg('owner', messages.common.isNotHex),
-          'any.required': makeErrorMsg('owner', messages.common.require),
-        }),
         movieId: Joi.number().required().integer().messages({
           'number.base': makeErrorMsg('movieId', messages.common.isNotNumber),
           'number.integer': makeErrorMsg('movieId', messages.common.isNotInteger),
