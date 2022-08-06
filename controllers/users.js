@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
   UnauthorizedError,
-  BadRequestError,
   NotFoundError,
   ConflictError,
 } = require('../classes/Error');
@@ -49,24 +48,24 @@ const getUser = (req, res, next) => {
 
 const updateUser = (req, res, next) => {
   const { email, name } = req.body;
-  if (email && name) {
-    User.findByIdAndUpdate(
-      req.user._id,
-      { name, email },
-      { runValidator: true, new: true },
-      (err, docs) => {
-        if (err) {
-          next(err);
-        } else if (!docs) {
-          next(new NotFoundError(MSG.error.notFound.user));
-        } else {
-          res.send(docs);
-        }
-      },
-    );
-  } else {
-    next(new BadRequestError());
-  }
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    { runValidator: true, new: true },
+  )
+    .then((user) => {
+      if (!user) {
+        next(new NotFoundError(MSG.error.notFound.user));
+      }
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err.code === ERROR_CODE.mongo.duplicateKey) {
+        next(new ConflictError(MSG.error.conflict.emailAlreadyExist));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const login = (req, res, next) => {
