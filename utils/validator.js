@@ -71,7 +71,13 @@ module.exports = {
     },
     delete: {
       params: Joi.object().keys({
-        movieId: Joi.string().hex().message(messages.movie.invalidOwner),
+        movieId: Joi.string().required().hex().length(24)
+          .messages({
+            'string.empty': messages.user.requireName,
+            'string.hex': messages.movie.invalidMovieId,
+            'string.length': messages.movie.invalidMovieId,
+            'any.required': messages.user.requireName,
+          }),
       }),
     },
   },

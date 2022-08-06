@@ -52,6 +52,7 @@ module.exports = {
     },
     movie: {
       invalidOwner: 'Указан некорректный id пользователя',
+      invalidMovieId: 'Указан некорректный id фильма',
     },
   },
 };
