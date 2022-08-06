@@ -28,6 +28,8 @@ module.exports = {
   success: {
     default: 'Запрос выполнен',
     movieWasRemoved: 'Фильм удален',
+    login: 'Вы успешно авторизовались',
+    logout: 'Вы успешно вышли из системы',
   },
   validation: {
     common: {

@@ -94,18 +94,21 @@ const login = (req, res, next) => {
           maxAge: 3600000,
           httpOnly: true,
         })
-        .end();
+        .send({
+          message: MSG.success.login,
+        });
     })
     .catch(next);
 };
 
-const logout = (req, res, next) => {
+const logout = (req, res) => {
   res
     .clearCookie('jwt', {
       httpOnly: true,
     })
-    .end();
-  next();
+    .send({
+      message: MSG.success.logout,
+    });
 };
 
 module.exports = {
