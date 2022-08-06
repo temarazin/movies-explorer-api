@@ -78,9 +78,15 @@ module.exports = {
   user: {
     update: {
       body: Joi.object().keys({
-        name: Joi.string()
-          .$.min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
-          .rule({ message: messages.user.invalidNameLength }),
+        name: Joi.string().required()
+          .min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
+          .messages({
+            'string.base': makeErrorMsg('name', messages.common.isNotString),
+            'string.empty': messages.user.requireName,
+            'string.min': messages.user.invalidNameLength,
+            'string.max': messages.user.invalidNameLength,
+            'any.required': messages.user.requireName,
+          }),
         email: Joi.string().email().required().messages({
           'string.email': messages.user.invalidEmail,
           'any.required': messages.user.requireEmail,
@@ -91,9 +97,15 @@ module.exports = {
   auth: {
     signUp: {
       body: Joi.object().keys({
-        name: Joi.string()
-          .$.min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
-          .rule({ message: messages.user.invalidNameLength }),
+        name: Joi.string().required()
+          .min(validation.user.nameMinLength).max(validation.user.nameMaxLength)
+          .messages({
+            'string.base': makeErrorMsg('name', messages.common.isNotString),
+            'string.empty': messages.user.requireName,
+            'string.min': messages.user.invalidNameLength,
+            'string.max': messages.user.invalidNameLength,
+            'any.required': messages.user.requireName,
+          }),
         email: Joi.string().email().required().messages({
           'string.email': messages.user.invalidEmail,
           'any.required': messages.user.requireEmail,
