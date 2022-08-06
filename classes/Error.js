@@ -1,46 +1,15 @@
-/* eslint-disable max-classes-per-file */
+const BadRequestError = require('./Error/BadRequestError');
+const ConflictError = require('./Error/ConflictError');
+const ForbiddenError = require('./Error/ForbiddenError');
+const NotFoundError = require('./Error/NotFoundError');
+const ServerError = require('./Error/ServerError');
+const UnauthorizedError = require('./Error/UnauthorizedError');
 
-const { STATUS_CODE } = require('../utils/constants');
-const { error: messages } = require('../utils/messages');
-
-module.exports.BadRequestError = class BadRequestError extends Error {
-  constructor(msg = messages.badRequest.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.badRequest;
-  }
-};
-
-module.exports.UnauthorizedError = class UnauthorizedError extends Error {
-  constructor(msg = messages.unauthorized.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.unauthorized;
-  }
-};
-
-module.exports.ForbiddenError = class ForbiddenError extends Error {
-  constructor(msg = messages.forbidden.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.forbidden;
-  }
-};
-
-module.exports.NotFoundError = class NotFoundError extends Error {
-  constructor(msg = messages.notFound.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.notFound;
-  }
-};
-
-module.exports.ConflictError = class ConflictError extends Error {
-  constructor(msg = messages.conflict.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.conflict;
-  }
-};
-
-module.exports.ServerError = class ServerError extends Error {
-  constructor(msg = messages.serverError.default) {
-    super(msg);
-    this.statusCode = STATUS_CODE.error.serverError;
-  }
+module.exports = {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  ServerError,
+  UnauthorizedError,
 };
