@@ -93,6 +93,8 @@ const login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000,
           httpOnly: true,
+          sameSite: 'none',
+          secure: true,
         })
         .send({
           message: MSG.success.login,

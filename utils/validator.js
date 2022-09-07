@@ -19,9 +19,9 @@ module.exports = {
           'string.empty': makeErrorMsg('director', messages.common.isNotEmpty),
           'any.required': makeErrorMsg('director', messages.common.require),
         }),
-        duration: Joi.string().required().messages({
-          'string.base': makeErrorMsg('duration', messages.common.isNotString),
-          'string.empty': makeErrorMsg('duration', messages.common.isNotEmpty),
+        duration: Joi.number().integer().required().messages({
+          'number.base': makeErrorMsg('movieId', messages.common.isNotNumber),
+          'number.integer': makeErrorMsg('movieId', messages.common.isNotInteger),
           'any.required': makeErrorMsg('duration', messages.common.require),
         }),
         year: Joi.string().required().messages({
@@ -52,7 +52,7 @@ module.exports = {
           'string.uri': makeErrorMsg('thumbnail', messages.common.isNotUrl),
           'any.required': makeErrorMsg('thumbnail', messages.common.require),
         }),
-        movieId: Joi.number().required().integer().messages({
+        movieId: Joi.number().integer().required().messages({
           'number.base': makeErrorMsg('movieId', messages.common.isNotNumber),
           'number.integer': makeErrorMsg('movieId', messages.common.isNotInteger),
           'any.required': makeErrorMsg('movieId', messages.common.require),
