@@ -1,4 +1,5 @@
 const allowedCors = [
+  'http://localhost:3000',
   'http://movie-explorer.temarazin.ru',
   'https://movie-explorer.temarazin.ru/',
 ];

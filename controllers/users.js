@@ -106,7 +106,7 @@ const login = (req, res, next) => {
 const logout = (req, res) => {
   res
     .clearCookie('jwt', {
-      httpOnly: true,
+      httpOnly: true, sameSite: 'none', secure: true,
     })
     .send({
       message: MSG.success.logout,
