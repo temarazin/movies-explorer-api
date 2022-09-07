@@ -1,7 +1,6 @@
 const allowedCors = [
-  'http://localhost:3000',
-  'http://temarazin.nomoredomains.xyz',
-  'https://temarazin.nomoredomains.xyz',
+  'http://movie-explorer.temarazin.ru',
+  'https://movie-explorer.temarazin.ru/',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
