@@ -93,6 +93,8 @@ const login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000,
           httpOnly: true,
+          sameSite: 'none',
+          secure: true,
         })
         .send({
           message: MSG.success.login,
@@ -104,7 +106,7 @@ const login = (req, res, next) => {
 const logout = (req, res) => {
   res
     .clearCookie('jwt', {
-      httpOnly: true,
+      httpOnly: true, sameSite: 'none', secure: true,
     })
     .send({
       message: MSG.success.logout,

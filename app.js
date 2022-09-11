@@ -11,11 +11,13 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { dbConnect } = require('./utils/settings');
 const rateLimiter = require('./utils/rateLimitConfig');
+const cors = require('./middlewares/cors');
 
 const { DBHOST, DBNAME } = process.env;
 
 const app = express();
 
+app.use(cors);
 app.use(helmet());
 
 app.use(bodyParser.json());
